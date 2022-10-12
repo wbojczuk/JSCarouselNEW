@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
 *{
     margin:0;
 }
@@ -6,7 +7,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 800px;
+    width: 40vw;
     aspect-ratio: 1/1;
     position: relative;
 }
@@ -37,34 +38,47 @@
     width: 100%;
     top:0;
     background-color: black;
-    transition: transform 0.8s, opacity 0.4s, 0.2s top ease-in-out;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    font-family: "Playfair Display", serif;
-    color:rgb(30, 86, 170);
-}
-.tri-carousel-card-shadow{
-    width: 100%;
-    position: absolute;
-    bottom: -10%;
-    height: 5%;
-    background-color: rgba(0,0,0,0.6);
+    transition: transform 0.9s, 0.2s top ease-in-out;
     border: 0px solid transparent;
-    border-radius: 50%;
-    filter: blur(10px); 
+    border-radius: 10px;
+    color:rgb(30, 86, 170);
 }
 .tri-carousel-card:hover{
     top: -5%;
     cursor: pointer;
 }
+
+.tri-carousel-card-shadow{
+    width: 100%;
+    position: absolute;
+    bottom: -10%;
+    height: 3%;
+    left: 0;
+    background-color: rgba(0,0,0,0.3);
+    border: 0px solid transparent;
+    border-radius: 50%;
+    filter: blur(6px); 
+    transition: 0.2s bottom ease-in-out, 0.2s width ease-in-out, 0.2s left ease-in-out, 0.2s height ease-in-out;
+}
+.tri-carousel-card:hover .tri-carousel-card-shadow{
+    bottom: -15%;
+    width: 90%;
+    left: 5%;
+    height: 2%;
+}
+
 .tri-carousel-card-title{
     display: flex;
     width: 100%;
-    height: 50%;
+    margin-top: 60%;
+    padding: 2% 0;
     font-size: 2vw;
-    font-weight: 600;
+    font-weight: 400;
     align-items: center;
     justify-content: center;
+    color: white;
+    background-color: rgba(0,0,0,0.3);
+    font-family: "Fredericka the Great", cursive;
 }
 
 
@@ -98,5 +112,5 @@
     z-index: 15;
 }
 .carousel-arrow:hover{
-    transform: scale(1.1);
+    transform: scale(1.2);
 }

@@ -1,39 +1,40 @@
 "use strict";
 
+
 const triCarousel = {
 
-    shadows: false,
+    shadows: true,
 
     cards: [
         {
             title: "Github",
             subtitle: "subtitle",
-            image: null,
-            link: "https://github.com/wbojczuk"
+            link: "https://github.com/wbojczuk",
+            image: `images/bg${randInt(1,3)}.jpg`,
         },
         {
-            title: "dev",
+            title: "My Portfolio",
             subtitle: "subtitle",
-            image: null,
+            image: `images/bg${randInt(1,3)}.jpg`,
             link: "https://williambojczuk.dev"
         },
         {
-            title: "wbojczuk",
+            title: "My Website",
             subtitle: "subtitle",
-            image: null,
+            image: `images/bg${randInt(1,3)}.jpg`,
             link: "https://williambojczuk.com/"
         },
         {
-            title: "animation",
+            title: "Animation Storm",
             subtitle: "subtitle",
-            image: null,
+            image: `images/bg${randInt(1,3)}.jpg`,
             link: "https://wbojczuk.github.io/animationstorm"
         },
         {
-            title: "realm shooter",
+            title: "Realm Shooter",
             subtitle: "subtitle",
-            image: null,
-            link: "https://realmshooter"
+            image: `images/bg${randInt(1,3)}.jpg`,
+            link: "http://realmshooter.com"
         },
     ],
 
@@ -71,6 +72,11 @@ const triCarousel = {
         const mainCard = cardTemplate.cloneNode(true);
         mainCard.querySelector(".tri-carousel-card-title").textContent = cards[mIndex].title;
         mainCard.classList.add("main-card");
+        if(cards[mIndex].image){
+            mainCard.style.backgroundImage = `url('${cards[mIndex].image}')`;
+            mainCard.style.backgroundSize = "cover";
+            mainCard.style.backgroundPosition = "center";
+        }
         mainCard.href = cards[mIndex].link;
         cardStyles(mainCard);
         
@@ -78,12 +84,22 @@ const triCarousel = {
         const leftCard = cardTemplate.cloneNode(true);
         leftCard.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
         leftCard.classList.add("left-card");
+        if(cards[lIndex].image){
+            leftCard.style.backgroundImage = `url('${cards[lIndex].image}')`;
+            leftCard.style.backgroundSize = "cover";
+            leftCard.style.backgroundPosition = "center";
+        }
         leftCard.href = cards[lIndex].link;
         cardStyles(leftCard);
 
         const rightCard = cardTemplate.cloneNode(true);
         rightCard.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
         rightCard.classList.add("right-card");
+        if(cards[rIndex].image){
+            rightCard.style.backgroundImage = `url('${cards[rIndex].image}')`;
+            rightCard.style.backgroundSize = "cover";
+            rightCard.style.backgroundPosition = "center";
+        } 
         rightCard.href = cards[rIndex].link;
         cardStyles(rightCard);
         
@@ -102,10 +118,10 @@ const triCarousel = {
         // RIGHT ARROW LISTENER
         document.querySelector(".tri-carousel-rarrow").addEventListener("click", ()=>{
             if(ready){
-                const right = cardContainer.querySelector(".right-card");
-                const left = cardContainer.querySelector(".left-card");
-                const main = cardContainer.querySelector(".main-card");
-                const temp = cardContainer.querySelector(".temp-card");
+                let right = cardContainer.querySelector(".right-card");
+                let left = cardContainer.querySelector(".left-card");
+                let main = cardContainer.querySelector(".main-card");
+                let temp = cardContainer.querySelector(".temp-card");
 
                 // SHIFT INDEXES
                 rIndex = mIndex;
@@ -115,6 +131,13 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
+                if(cards[lIndex].image){
+                    temp.style.backgroundImage = `url('${cards[lIndex].image}')`;
+                    temp.style.backgroundSize = "cover";
+                    temp.style.backgroundPosition = "center";
+                } else {
+                    temp.style.backgroundImage = "none";
+                }
                 temp.classList.remove("temp-card");
                 temp.classList.add("left-card");
                 left.classList.remove("left-card");
@@ -123,9 +146,17 @@ const triCarousel = {
                 main.classList.add("right-card");
                 right.classList.remove("right-card");
                 right.classList.add("temp-card");
-                cardContainer.querySelector(".right-card").href = cards[rIndex].link;
-                cardContainer.querySelector(".left-card").href = cards[lIndex].link;
-                cardContainer.querySelector(".main-card").href = cards[mIndex].link;
+                right = cardContainer.querySelector(".right-card");
+                left = cardContainer.querySelector(".left-card");
+                main = cardContainer.querySelector(".main-card");
+                temp = cardContainer.querySelector(".temp-card");
+                right.href = cards[rIndex].link;
+                left.href = cards[lIndex].link;
+                main.href = cards[mIndex].link;
+                main.style.zIndex = "8";
+                right.style.zIndex = "6";
+                left.style.zIndex = "3";
+                temp.style.zIndex = "-10";
                 cardStyles(temp);
                 cardStyles(left);
                 cardStyles(main);
@@ -140,10 +171,10 @@ const triCarousel = {
         // LEFT ARROW LISTENER
         document.querySelector(".tri-carousel-larrow").addEventListener("click", ()=>{
             if(ready){
-                const right = cardContainer.querySelector(".right-card");
-                const left = cardContainer.querySelector(".left-card");
-                const main = cardContainer.querySelector(".main-card");
-                const temp = cardContainer.querySelector(".temp-card");
+                let right = cardContainer.querySelector(".right-card");
+                let left = cardContainer.querySelector(".left-card");
+                let main = cardContainer.querySelector(".main-card");
+                let temp = cardContainer.querySelector(".temp-card");
 
                 // SHIFT INDEXES
                 lIndex = mIndex;
@@ -153,6 +184,13 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
+                if(cards[rIndex].image){
+                    temp.style.backgroundImage = `url('${cards[rIndex].image}')`;
+                    temp.style.backgroundSize = "cover";
+                    temp.style.backgroundPosition = "center";
+                } else {
+                    temp.style.backgroundImage = "none";
+                }
                 temp.classList.remove("temp-card");
                 temp.classList.add("right-card");
                 left.classList.remove("left-card");
@@ -161,9 +199,20 @@ const triCarousel = {
                 main.classList.add("left-card");
                 right.classList.remove("right-card");
                 right.classList.add("main-card");
-                cardContainer.querySelector(".right-card").href = cards[rIndex].link;
-                cardContainer.querySelector(".left-card").href = cards[lIndex].link;
-                cardContainer.querySelector(".main-card").href = cards[mIndex].link;
+
+                // REFRESH REFERENCES
+                right = cardContainer.querySelector(".right-card");
+                left = cardContainer.querySelector(".left-card");
+                main = cardContainer.querySelector(".main-card");
+                temp = cardContainer.querySelector(".temp-card");
+
+                right.href = cards[rIndex].link;
+                left.href = cards[lIndex].link;
+                main.href = cards[mIndex].link;
+                main.style.zIndex = "8";
+                right.style.zIndex = "3";
+                left.style.zIndex = "6";
+                temp.style.zIndex = "-10";
                 cardStyles(temp);
                 cardStyles(left);
                 cardStyles(main);
@@ -179,24 +228,24 @@ const triCarousel = {
 
         function cardStyles(elem){
             if(elem.classList.contains("right-card")){
-                elem.style.zIndex = "2";
                 elem.style.transform = "translateX(110%) scale(0.5)";
             }else if(elem.classList.contains("left-card")){
-                elem.style.zIndex = "2";
                 elem.style.transform = "translateX(-110%) scale(0.5)";
             } else if(elem.classList.contains("main-card")){
-                elem.style.zIndex = "5";
                 elem.style.transform = "translateX(0) scale(1)";
             } else if(elem.classList.contains("temp-card")){
-                elem.style.zIndex = "-10";
                 elem.style.transform = "translateX(0) scale(0)";
             }
         }
 
-        function randInt(min, max){
-            return Math.floor(Math.random() * ((max + 1) - min) + min);
-        }
-    }
+        
+    },
+    
 };
 
+function randInt(min, max){
+    return Math.floor(Math.random() * ((max + 1) - min) + min);
+}
+
 triCarousel.init();
+
