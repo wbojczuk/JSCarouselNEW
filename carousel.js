@@ -13,7 +13,7 @@ const triCarousel = {
         {
             title: "JSDevTools",
             subtitle: "subtitle",
-            link: "https://github.com/JSDevTools",
+            link: "https://github.com/wbojczuk/JSDevTools",
             image: `images/bg${randInt(1,3)}.jpg`,
         },
         {
