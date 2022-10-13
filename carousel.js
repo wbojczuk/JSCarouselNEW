@@ -177,7 +177,7 @@ const triCarousel = {
                 
 
                 ready = false;
-                setTimeout(()=>{ready = true;},600);
+                setTimeout(()=>{ready = true;},400);
             }
         });
 
