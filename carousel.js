@@ -4,8 +4,18 @@
 const triCarousel = {
 
     shadows: true,
+    shuffle: true,
+
+    // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
+    cardStartIndex: null,
 
     cards: [
+        {
+            title: "JSDevTools",
+            subtitle: "subtitle",
+            link: "https://github.com/JSDevTools",
+            image: `images/bg${randInt(1,3)}.jpg`,
+        },
         {
             title: "Github",
             subtitle: "subtitle",
@@ -36,11 +46,14 @@ const triCarousel = {
             image: `images/bg${randInt(1,3)}.jpg`,
             link: "http://realmshooter.com"
         },
+        
     ],
 
 
     init: ()=>{
         // SET UP CARD TEMPLATE
+        
+        if(triCarousel.shuffle){triCarousel.cards = triCarousel.cards.sortRandom();}
         const cardTemplate = document.createElement("a");
         cardTemplate.className = "tri-carousel-card";
         cardTemplate.target = "_blank";
@@ -62,7 +75,7 @@ const triCarousel = {
 
         // REFERENCES
         const cardContainer = document.querySelector(".tri-carousel-center");
-        let mIndex = randInt(0, cardsIndex);
+        let mIndex = (triCarousel.cardStartIndex != null) ? triCarousel.cardStartIndex :  randInt(0, cardsIndex);
         let lIndex = (mIndex > 0) ? (mIndex - 1) : cardsIndex;
         let rIndex = (mIndex < cardsIndex) ? (mIndex + 1) : 0;
         let ready = true;
@@ -246,6 +259,23 @@ const triCarousel = {
 function randInt(min, max){
     return Math.floor(Math.random() * ((max + 1) - min) + min);
 }
+
+Array.prototype.sortRandom = function(){
+    const targetArray = this;
+    const arrayLength = targetArray.length;
+    const arrayRefs = [];
+    const outputArray = [];
+
+    for(let i = 0; i < arrayLength; i++){
+        arrayRefs.push(i);
+    }
+    for(let i = 0; i < arrayLength; i++){
+        const currentNum = Math.floor(Math.random() * (arrayRefs.length - 0) + 0);
+        outputArray.push(targetArray[arrayRefs[currentNum]]);
+        arrayRefs.splice(currentNum, 1);
+    }
+    return outputArray;
+};
 
 triCarousel.init();
 
