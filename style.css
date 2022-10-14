@@ -59,6 +59,7 @@
     border-radius: 50%;
     filter: blur(6px); 
     transition: 0.2s bottom ease-in-out, 0.2s width ease-in-out, 0.2s left ease-in-out, 0.2s height ease-in-out;
+    pointer-events: none;
 }
 .tri-carousel-card:hover .tri-carousel-card-shadow{
     bottom: -15%;
