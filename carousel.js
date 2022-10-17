@@ -91,9 +91,7 @@ const triCarousel = {
 
         mainStyles.textContent = `
         @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
-        *{
-            margin:0;
-        }
+        
         .tri-carousel-container{
             display: inline-flex;
             align-items: center;
@@ -110,16 +108,6 @@ const triCarousel = {
             width: ${triCarousel.cardWidth}%;
             /* aspect-ratio: 1/1.5; */
             /* border: 1px solid black; */
-        }
-        
-        .positioner{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            top:0;
-            left:0;
-            margin-top: 100px;
         }
         
         .tri-carousel-card{
