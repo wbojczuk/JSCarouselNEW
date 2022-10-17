@@ -10,13 +10,15 @@ const triCarousel = {
     bgColor: "black",
 
     //hover effects: none, slide-up, slide-down, peek
-    hoverEffect: "peek",
+    hoverEffect: "slide-down",
 
     // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
     cardStartIndex: null,
 
     // CONTAINER SIZE, takes any valid units
     containerSize: "40vw",
+
+    carouselSpeed: "0.9s",
 
     // CARD SIZE IN PERCENTAGES
     cardWidth: 45,
@@ -129,7 +131,7 @@ const triCarousel = {
             top:0;
             bottom:0;
             background-color: none;
-            transition: transform 0.9s, 0.2s top ease-in-out;
+            transition: transform ${triCarousel.carouselSpeed}, 0.2s top ease-in-out;
             border: 0px solid transparent;
             border-radius: 10px;
             color:rgb(30, 86, 170);
@@ -180,8 +182,6 @@ const triCarousel = {
         .tri-carousel-center .right-card{
             transform: translateX(110%) scale(0.5);
         }
-        
-        /* END TESTING */
         
         
         .tri-carousel-card-title{
@@ -302,6 +302,9 @@ const triCarousel = {
 
             case "slide-down":
                 hoverStyles.textContent = `
+                .tri-carousel-card{
+                    transition: transform ${triCarousel.carouselSpeed}, 0.2s top ease-in-out;
+                }
                 .tri-carousel-card-styling{
                     display: inline-block;
                     position: absolute;
@@ -314,11 +317,11 @@ const triCarousel = {
                     z-index: -15;
                     background-color: #9170b4;
                     transform: rotate(0);
-                    transition: 0.2s top ease-in-out;
+                    transition: 0.3s top ease-in-out;
                 }
                 
                 .tri-carousel-card:hover .tri-carousel-card-styling{
-                 top: -10%;
+                 top: -10%; 
                 }
                 
                 .tri-carousel-card-styling:after{
@@ -331,7 +334,7 @@ const triCarousel = {
                     font-size: 3vw;
                     color: #7db3e1;
                     transform: rotate(-200deg);
-                    transition: 0.2s transform ease-in-out;
+                    transition: 0.4s transform ease-in-out;
                 }
                 .tri-carousel-card:hover .tri-carousel-card-styling:after{
                     transform: rotate(0);
