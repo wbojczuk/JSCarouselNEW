@@ -10,7 +10,7 @@ const triCarousel = {
     bgColor: "black",
 
     //hover effects: none, slide-up, slide-down, peek
-    hoverEffect: "slide-up",
+    hoverEffect: "slide-down",
 
     // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
     cardStartIndex: null,
@@ -137,10 +137,10 @@ const triCarousel = {
                 .tri-carousel-card-styling{
                     display: inline-block;
                     position: absolute;
-                    min-width: 100%;
+                    min-width: 92%;
                     height: 20%;
                     top: 0;
-                    left: 0;
+                    left: 4%;
                     border: 0px solid transparent;
                     border-radius: 10px;
                     z-index: -15;
@@ -162,6 +162,11 @@ const triCarousel = {
                     top:-10%;
                     font-size: 3vw;
                     color: #7db3e1;
+                    transform: rotate(-200deg);
+                    transition: 0.2s transform ease-in-out;
+                }
+                .tri-carousel-card:hover .tri-carousel-card-styling:after{
+                    transform: rotate(0);
                 }
                 
                 .tri-carousel-card:hover{
