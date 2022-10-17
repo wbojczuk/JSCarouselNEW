@@ -6,8 +6,27 @@ const triCarousel = {
     shadows: true,
     shuffle: true,
 
+    // If no images are being used
+    bgColor: "black",
+
+    //hover effects: none, slide-up, slide-down, peek
+    hoverEffect: "slide-up",
+
     // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
     cardStartIndex: null,
+
+
+/* 
+----- CARD TEMPLATE -----
+        {
+            title: "JSDevTools",
+            subtitle: "subtitle",
+            link: "https://github.com/wbojczuk/JSDevTools",
+            image: `image/url`,
+        }
+        --> All ATTRIBUTES SHOULD BE PRESENT, SET TO AN EMPTY STRING IF UNUSED.
+        --> EMPTY IMAGE ATTRIBUTES WILL DEFAULT TO THE BACKGROUND COLOR SPECIFIED IN bgColor
+*/
 
     cards: [
         {
@@ -51,8 +70,118 @@ const triCarousel = {
 
 
     init: ()=>{
+
+        // Inject Styles
+
+        // const mainStyles = document.createElement("style");
+        // mainStyles.id = "triCarStyles";
+
+        const hoverStyles = document.createElement("style");
+        hoverStyles.id = "triCarHoverStyles";
+        switch((triCarousel.hoverEffect).toLowerCase()){
+
+            case "slide-up":
+                hoverStyles.textContent = `
+                .tri-carousel-card:hover{
+                    top: -5%;
+                    cursor: pointer;
+                }
+
+                .tri-carousel-card:hover .tri-carousel-card-shadow{
+                    bottom: -15%;
+                    width: 90%;
+                    left: 5%;
+                    height: 2%;
+                }
+                `;
+                document.getElementsByTagName("head")[0].append(hoverStyles);
+            break;
+
+            case "peek":
+                hoverStyles.textContent = `
+                .tri-carousel-card-styling{
+                    display: inline-block;
+                    position: absolute;
+                    min-width: 20%;
+                    height: 90%;
+                    top: 4%;
+                    right: 0;
+                    border: 0px solid transparent;
+                    border-radius: 10px;
+                    z-index: -15;
+                    background-color: #9170b4;
+                    transform: rotate(0);
+                    transition: transform 0.2s ease-in-out;
+                }
+                
+                .tri-carousel-card-styling:after{
+                    content: ">";
+                    font-family: monospace;
+                    display: inline-block;
+                    position: absolute;
+                    right:2px;
+                    top:2px;
+                    font-size: 3vw;
+                    color: #7db3e1;
+                }
+                
+                .tri-carousel-card:hover .tri-carousel-card-styling{
+                    transform: rotate(10deg);
+                }
+                `;
+                document.getElementsByTagName("head")[0].append(hoverStyles);
+            break;
+
+            case "slide-down":
+                hoverStyles.textContent = `
+                .tri-carousel-card-styling{
+                    display: inline-block;
+                    position: absolute;
+                    min-width: 100%;
+                    height: 20%;
+                    top: 0;
+                    left: 0;
+                    border: 0px solid transparent;
+                    border-radius: 10px;
+                    z-index: -15;
+                    background-color: #9170b4;
+                    transform: rotate(0);
+                    transition: 0.2s top ease-in-out;
+                }
+                
+                .tri-carousel-card:hover .tri-carousel-card-styling{
+                 top: -10%;
+                }
+                
+                .tri-carousel-card-styling:after{
+                    content: ">";
+                    font-family: monospace;
+                    display: inline-block;
+                    position: absolute;
+                    right:2%;
+                    top:-10%;
+                    font-size: 3vw;
+                    color: #7db3e1;
+                }
+                
+                .tri-carousel-card:hover{
+                    top: 10%;
+                }
+                
+                .tri-carousel-card:hover .tri-carousel-card-shadow{
+                    bottom: -5%;
+                    width: 105%;
+                    left: -2.5%;
+                    height: 2%;
+                    background-color: rgba(0,0,0,0.6);
+                }
+                `;
+                document.getElementsByTagName("head")[0].append(hoverStyles);
+            break;
+
+        }
+
         // SET UP CARD TEMPLATE
-        
         if(triCarousel.shuffle){triCarousel.cards = triCarousel.cards.sortRandom();}
         const cardTemplate = document.createElement("a");
         cardTemplate.className = "tri-carousel-card";
@@ -61,9 +190,20 @@ const triCarousel = {
         cardTitle.className = "tri-carousel-card-title";
         const cardSubtitle = document.createElement("div");
         cardSubtitle.className = "tri-carousel-card-subtitle";
-        
+
+        const cardStyling = document.createElement("div");
+        cardStyling.className = "tri-carousel-card-styling";
+        cardTemplate.append(cardStyling);
+
+        const cardBg = document.createElement("div");
+        cardBg.className = "tri-carousel-card-bg";
+        cardTemplate.append(cardBg);
+
         cardTemplate.append(cardTitle);
         cardTemplate.append(cardSubtitle);
+        const bgColor = triCarousel.bgColor;
+
+        
         
         if(triCarousel.shadows){
             const cardShadow = document.createElement("div");
@@ -85,10 +225,13 @@ const triCarousel = {
         const mainCard = cardTemplate.cloneNode(true);
         mainCard.querySelector(".tri-carousel-card-title").textContent = cards[mIndex].title;
         mainCard.classList.add("main-card");
-        if(cards[mIndex].image){
-            mainCard.style.backgroundImage = `url('${cards[mIndex].image}')`;
-            mainCard.style.backgroundSize = "cover";
-            mainCard.style.backgroundPosition = "center";
+        if(cards[mIndex].image != ""){
+            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[mIndex].image}')`;
+            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
+            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+        } else {
+            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            
         }
         mainCard.href = cards[mIndex].link;
         cardStyles(mainCard);
@@ -97,10 +240,13 @@ const triCarousel = {
         const leftCard = cardTemplate.cloneNode(true);
         leftCard.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
         leftCard.classList.add("left-card");
-        if(cards[lIndex].image){
-            leftCard.style.backgroundImage = `url('${cards[lIndex].image}')`;
-            leftCard.style.backgroundSize = "cover";
-            leftCard.style.backgroundPosition = "center";
+        if(cards[lIndex].image != ""){
+            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[lIndex].image}')`;
+            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
+            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+        } else {
+            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            
         }
         leftCard.href = cards[lIndex].link;
         cardStyles(leftCard);
@@ -108,11 +254,14 @@ const triCarousel = {
         const rightCard = cardTemplate.cloneNode(true);
         rightCard.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
         rightCard.classList.add("right-card");
-        if(cards[rIndex].image){
-            rightCard.style.backgroundImage = `url('${cards[rIndex].image}')`;
-            rightCard.style.backgroundSize = "cover";
-            rightCard.style.backgroundPosition = "center";
-        } 
+        if(cards[rIndex].image != ""){
+            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[rIndex].image}')`;
+            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
+            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+        } else {
+            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            
+        }
         rightCard.href = cards[rIndex].link;
         cardStyles(rightCard);
         
@@ -144,12 +293,13 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
-                if(cards[lIndex].image){
-                    temp.style.backgroundImage = `url('${cards[lIndex].image}')`;
-                    temp.style.backgroundSize = "cover";
-                    temp.style.backgroundPosition = "center";
+                if(cards[lIndex].image != ""){
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[lIndex].image}')`;
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
                 } else {
-                    temp.style.backgroundImage = "none";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = "none";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
                 }
                 temp.classList.remove("temp-card");
                 temp.classList.add("left-card");
@@ -197,12 +347,13 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
-                if(cards[rIndex].image){
-                    temp.style.backgroundImage = `url('${cards[rIndex].image}')`;
-                    temp.style.backgroundSize = "cover";
-                    temp.style.backgroundPosition = "center";
+                if(cards[rIndex].image != ""){
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[rIndex].image}')`;
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
                 } else {
-                    temp.style.backgroundImage = "none";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = "none";
+                    temp.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
                 }
                 temp.classList.remove("temp-card");
                 temp.classList.add("right-card");

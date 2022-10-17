@@ -37,16 +37,15 @@
     height: 100%;
     width: 100%;
     top:0;
-    background-color: black;
+    bottom:0;
+    background-color: none;
     transition: transform 0.9s, 0.2s top ease-in-out;
     border: 0px solid transparent;
     border-radius: 10px;
     color:rgb(30, 86, 170);
-}
-.tri-carousel-card:hover{
-    top: -5%;
     cursor: pointer;
 }
+
 
 .tri-carousel-card-shadow{
     width: 100%;
@@ -58,19 +57,36 @@
     border: 0px solid transparent;
     border-radius: 50%;
     filter: blur(6px); 
-    transition: 0.2s bottom ease-in-out, 0.2s width ease-in-out, 0.2s left ease-in-out, 0.2s height ease-in-out;
+    transition: 0.2s bottom ease-in-out, 0.2s width ease-in-out, 0.2s left ease-in-out, 0.2s height ease-in-out, 0.2s background-color ease-in-out;
     pointer-events: none;
 }
-.tri-carousel-card:hover .tri-carousel-card-shadow{
-    bottom: -15%;
-    width: 90%;
-    left: 5%;
-    height: 2%;
+.tri-carousel-card-bg{
+        display: inline-block;
+        position: absolute;
+        min-width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        
+        border: 0px solid transparent;
+        border-radius: 10px;
+        z-index: -13;
 }
+.tri-carousel-card-styling{
+    display: none;
+}
+
+/* TESTING */
+
+
+
+/* END TESTING */
+
 
 .tri-carousel-card-title{
     display: flex;
     width: 100%;
+    
     margin-top: 60%;
     padding: 2% 0;
     font-size: 2vw;
