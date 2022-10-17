@@ -10,14 +10,21 @@ const triCarousel = {
     bgColor: "black",
 
     //hover effects: none, slide-up, slide-down, peek
-    hoverEffect: "slide-up",
+    hoverEffect: "peek",
 
     // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
     cardStartIndex: null,
 
+    // CONTAINER SIZE, takes any valid units
+    containerSize: "40vw",
+
+    // CARD SIZE IN PERCENTAGES
+    cardWidth: 45,
+    cardHeight: 70,
+
 
 /* 
------ CARD TEMPLATE -----
+        ----- CARD TEMPLATE -----
         {
             title: "JSDevTools",
             subtitle: "subtitle",
@@ -73,12 +80,173 @@ const triCarousel = {
 
         // Inject Styles
 
-        // const mainStyles = document.createElement("style");
-        // mainStyles.id = "triCarStyles";
+        const mainStyles = document.createElement("style");
+        mainStyles.id = "triCarStyles";
+
+        /*
+                     -------------   START MAIN STYLES ------------
+        */
+
+        mainStyles.textContent = `
+        @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+        *{
+            margin:0;
+        }
+        .tri-carousel-container{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: ${triCarousel.containerSize};
+            aspect-ratio: 1/1;
+            position: relative;
+        }
+        
+        .tri-carousel-center{
+            display: inline-block;
+            position: relative;
+            height: ${triCarousel.cardHeight}%;
+            width: ${triCarousel.cardWidth}%;
+            /* aspect-ratio: 1/1.5; */
+            /* border: 1px solid black; */
+        }
+        
+        .positioner{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            top:0;
+            left:0;
+            margin-top: 100px;
+        }
+        
+        .tri-carousel-card{
+            display: inline-block;
+            text-decoration: none;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top:0;
+            bottom:0;
+            background-color: none;
+            transition: transform 0.9s, 0.2s top ease-in-out;
+            border: 0px solid transparent;
+            border-radius: 10px;
+            color:rgb(30, 86, 170);
+            cursor: pointer;
+        }
+        
+        
+        .tri-carousel-card-shadow{
+            width: 100%;
+            position: absolute;
+            bottom: -10%;
+            height: 3%;
+            left: 0;
+            background-color: rgba(0,0,0,0.3);
+            border: 0px solid transparent;
+            border-radius: 50%;
+            filter: blur(6px); 
+            transition: 0.2s bottom ease-in-out, 0.2s width ease-in-out, 0.2s left ease-in-out, 0.2s height ease-in-out, 0.2s background-color ease-in-out;
+            pointer-events: none;
+        }
+        .tri-carousel-card-bg{
+                display: inline-block;
+                position: absolute;
+                min-width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                
+                border: 0px solid transparent;
+                border-radius: 10px;
+                z-index: -13;
+        }
+        .tri-carousel-card-styling{
+            display: none;
+        }
+        
+        /* CARD ANIMATIONS */
+        
+        .tri-carousel-center .temp-card{
+            transform: translateX(0) scale(0);
+        }
+        .tri-carousel-center .left-card{
+            transform: translateX(-110%) scale(0.5);
+        }
+        .tri-carousel-center .main-card{
+            transform: translateX(0) scale(1);
+        }
+        .tri-carousel-center .right-card{
+            transform: translateX(110%) scale(0.5);
+        }
+        
+        /* END TESTING */
+        
+        
+        .tri-carousel-card-title{
+            display: flex;
+            width: 100%;
+            
+            margin-top: 60%;
+            padding: 2% 0;
+            font-size: 2vw;
+            font-weight: 400;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: rgba(0,0,0,0.3);
+            font-family: "Fredericka the Great", cursive;
+        }
+        
+        
+        
+        .tri-carousel-rarrow{
+            position: absolute;
+            right: -30%;
+            top: 45%;
+            height: 10%;
+            aspect-ratio: 1/1;
+            background-image: url("./images/chevron-right.svg");
+            background-size: 100%;
+        }
+        .tri-carousel-larrow{
+            position: absolute;
+            left: -30%;
+            top: 45%;
+            height: 10%;
+            aspect-ratio: 1/1;
+            background-image: url("./images/chevron-left.svg");
+            background-size: 100%;
+        }
+        
+        
+        
+        /* GENERAL CLASSES */
+        .carousel-arrow{
+            cursor: pointer;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+            z-index: 15;
+        }
+        .carousel-arrow:hover{
+            transform: scale(1.2);
+        }
+        `;
+
+
+        /*
+                     -------------   END MAIN STYLES ------------
+        */
+       document.getElementsByTagName("head")[0].append(mainStyles);
 
         const hoverStyles = document.createElement("style");
         hoverStyles.id = "triCarHoverStyles";
         switch((triCarousel.hoverEffect).toLowerCase()){
+
+            /*
+                     -------------   START HOVER STYLES ------------
+        */
 
             case "slide-up":
                 hoverStyles.textContent = `
@@ -139,7 +307,7 @@ const triCarousel = {
                     position: absolute;
                     min-width: 92%;
                     height: 20%;
-                    top: 0;
+                    top: 1%;
                     left: 4%;
                     border: 0px solid transparent;
                     border-radius: 10px;
@@ -181,6 +349,11 @@ const triCarousel = {
                     background-color: rgba(0,0,0,0.6);
                 }
                 `;
+
+                
+            /*
+                     -------------   END HOVER STYLES ------------
+        */
                 document.getElementsByTagName("head")[0].append(hoverStyles);
             break;
 
@@ -239,7 +412,7 @@ const triCarousel = {
             
         }
         mainCard.href = cards[mIndex].link;
-        cardStyles(mainCard);
+        
         
 
         const leftCard = cardTemplate.cloneNode(true);
@@ -254,7 +427,7 @@ const triCarousel = {
             
         }
         leftCard.href = cards[lIndex].link;
-        cardStyles(leftCard);
+        
 
         const rightCard = cardTemplate.cloneNode(true);
         rightCard.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
@@ -268,12 +441,12 @@ const triCarousel = {
             
         }
         rightCard.href = cards[rIndex].link;
-        cardStyles(rightCard);
+        
         
 
         const tempCard = cardTemplate.cloneNode(true);
         tempCard.classList.add("temp-card");
-        cardStyles(tempCard);
+        
         
 
         cardContainer.append(leftCard);
@@ -330,12 +503,6 @@ const triCarousel = {
                 left.style.zIndex = "3";
                 temp.style.zIndex = "-10";
 
-                cardStyles(temp);
-                cardStyles(left);
-                cardStyles(main);
-                cardStyles(right);
-                
-
                 ready = false;
                 setTimeout(()=>{ready = true;},400);
             }
@@ -387,10 +554,6 @@ const triCarousel = {
                 right.style.zIndex = "3";
                 left.style.zIndex = "6";
                 temp.style.zIndex = "-10";
-                cardStyles(temp);
-                cardStyles(left);
-                cardStyles(main);
-                cardStyles(right);
                 
 
                 ready = false;
@@ -400,23 +563,13 @@ const triCarousel = {
          
         //FUNCTIONS
 
-        function cardStyles(elem){
-            if(elem.classList.contains("right-card")){
-                elem.style.transform = "translateX(110%) scale(0.5)";
-            }else if(elem.classList.contains("left-card")){
-                elem.style.transform = "translateX(-110%) scale(0.5)";
-            } else if(elem.classList.contains("main-card")){
-                elem.style.transform = "translateX(0) scale(1)";
-            } else if(elem.classList.contains("temp-card")){
-                elem.style.transform = "translateX(0) scale(0)";
-            }
-        }
 
         
     },
     
 };
 
+// JSDevTools Helper Functions
 function randInt(min, max){
     return Math.floor(Math.random() * ((max + 1) - min) + min);
 }
@@ -438,5 +591,6 @@ Array.prototype.sortRandom = function(){
     return outputArray;
 };
 
+// Initialize Carousel
 triCarousel.init();
 
