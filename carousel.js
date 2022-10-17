@@ -174,7 +174,7 @@ const triCarousel = {
                 }
                 
                 .tri-carousel-card:hover .tri-carousel-card-shadow{
-                    bottom: -5%;
+                    bottom: -3%;
                     width: 105%;
                     left: -2.5%;
                     height: 2%;
