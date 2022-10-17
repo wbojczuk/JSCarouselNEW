@@ -91,8 +91,10 @@ const triCarousel = {
 
         mainStyles.textContent = `
         @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
-        
-        .tri-carousel-container{
+        *{
+            margin:0;
+        }
+        #triCarousel{
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -108,6 +110,16 @@ const triCarousel = {
             width: ${triCarousel.cardWidth}%;
             /* aspect-ratio: 1/1.5; */
             /* border: 1px solid black; */
+        }
+        
+        .positioner{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            top:0;
+            left:0;
+            margin-top: 100px;
         }
         
         .tri-carousel-card{
@@ -350,21 +362,51 @@ const triCarousel = {
 
         }
 
-        // SET UP CARD TEMPLATE
+       
+        
+        const divTemplate = document.createElement("div");
+
+        /*
+                     -------------   SET UP/INJECT CAROUSEL ELEMS ------------
+        */
+        const carousel = document.getElementById("triCarousel");
+
+        // Left Arrow
+        const lArrow = divTemplate.cloneNode(false);
+        lArrow.className = "tri-carousel-larrow carousel-arrow";
+
+        // Center Elem
+        const cElem = divTemplate.cloneNode(false);
+        cElem.className = "tri-carousel-center";
+
+        // Right Arrow
+        const rArrow = divTemplate.cloneNode(false);
+        rArrow.className = "tri-carousel-rarrow carousel-arrow";
+
+        // Append elems
+        carousel.append(lArrow);
+        carousel.append(cElem);
+        carousel.append(rArrow);
+
+
+/*
+                     -------------   SET UP/INJECT CAROUSEL CARDS ------------
+        */
+        
         if(triCarousel.shuffle){triCarousel.cards = triCarousel.cards.sortRandom();}
         const cardTemplate = document.createElement("a");
         cardTemplate.className = "tri-carousel-card";
         cardTemplate.target = "_blank";
-        const cardTitle = document.createElement("div");
+        const cardTitle = divTemplate.cloneNode(false);
         cardTitle.className = "tri-carousel-card-title";
-        const cardSubtitle = document.createElement("div");
+        const cardSubtitle = divTemplate.cloneNode(false);
         cardSubtitle.className = "tri-carousel-card-subtitle";
 
-        const cardStyling = document.createElement("div");
+        const cardStyling = divTemplate.cloneNode(false);
         cardStyling.className = "tri-carousel-card-styling";
         cardTemplate.append(cardStyling);
 
-        const cardBg = document.createElement("div");
+        const cardBg = divTemplate.cloneNode(false);
         cardBg.className = "tri-carousel-card-bg";
         cardTemplate.append(cardBg);
 
@@ -382,7 +424,7 @@ const triCarousel = {
         const cards = triCarousel.cards;
         const cardsIndex = cards.length - 1;
 
-        // REFERENCES
+        // Set initial card content and indexes
         const cardContainer = document.querySelector(".tri-carousel-center");
         let mIndex = (triCarousel.cardStartIndex != null) ? triCarousel.cardStartIndex :  randInt(0, cardsIndex);
         let lIndex = (mIndex > 0) ? (mIndex - 1) : cardsIndex;
@@ -394,12 +436,13 @@ const triCarousel = {
         const mainCard = cardTemplate.cloneNode(true);
         mainCard.querySelector(".tri-carousel-card-title").textContent = cards[mIndex].title;
         mainCard.classList.add("main-card");
+        const mainCardBG = mainCard.querySelector(".tri-carousel-card-bg");
         if(cards[mIndex].image != ""){
-            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[mIndex].image}')`;
-            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
-            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+            mainCardBG.style.backgroundImage = `url('${cards[mIndex].image}')`;
+            mainCardBG.style.backgroundSize = "cover";
+            mainCardBG.style.backgroundPosition = "center";
         } else {
-            mainCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            mainCardBG.style.backgroundColor = bgColor;
             
         }
         mainCard.href = cards[mIndex].link;
@@ -409,12 +452,13 @@ const triCarousel = {
         const leftCard = cardTemplate.cloneNode(true);
         leftCard.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
         leftCard.classList.add("left-card");
+        const leftCardBG = leftCard.querySelector(".tri-carousel-card-bg");
         if(cards[lIndex].image != ""){
-            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[lIndex].image}')`;
-            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
-            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+            leftCardBG.style.backgroundImage = `url('${cards[lIndex].image}')`;
+            leftCardBG.style.backgroundSize = "cover";
+            leftCardBG.style.backgroundPosition = "center";
         } else {
-            leftCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            leftCardBG.style.backgroundColor = bgColor;
             
         }
         leftCard.href = cards[lIndex].link;
@@ -423,12 +467,13 @@ const triCarousel = {
         const rightCard = cardTemplate.cloneNode(true);
         rightCard.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
         rightCard.classList.add("right-card");
+        const rightCardBG = rightCard.querySelector(".tri-carousel-card-bg");
         if(cards[rIndex].image != ""){
-            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[rIndex].image}')`;
-            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
-            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+            rightCardBG.style.backgroundImage = `url('${cards[rIndex].image}')`;
+            rightCardBG.style.backgroundSize = "cover";
+            rightCardBG.style.backgroundPosition = "center";
         } else {
-            rightCard.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+            rightCardBG.style.backgroundColor = bgColor;
             
         }
         rightCard.href = cards[rIndex].link;
@@ -462,13 +507,14 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
+                const tempBG = temp.querySelector(".tri-carousel-card-bg");
                 if(cards[lIndex].image != ""){
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[lIndex].image}')`;
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+                    tempBG.style.backgroundImage = `url('${cards[lIndex].image}')`;
+                    tempBG.style.backgroundSize = "cover";
+                    tempBG.style.backgroundPosition = "center";
                 } else {
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = "none";
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+                    tempBG.style.backgroundImage = "none";
+                    tempBG.style.backgroundColor = bgColor;
                 }
 
                 temp.classList.remove("temp-card");
@@ -515,13 +561,14 @@ const triCarousel = {
 
                 // WHAT WILL TEMP BE??
                 temp.querySelector(".tri-carousel-card-title").textContent = cards[rIndex].title;
+                const tempBG = temp.querySelector(".tri-carousel-card-bg");
                 if(cards[rIndex].image != ""){
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = `url('${cards[rIndex].image}')`;
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundSize = "cover";
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundPosition = "center";
+                    tempBG.style.backgroundImage = `url('${cards[rIndex].image}')`;
+                    tempBG.style.backgroundSize = "cover";
+                    tempBG.style.backgroundPosition = "center";
                 } else {
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = "none";
-                    temp.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
+                    tempBG.style.backgroundImage = "none";
+                    tempBG.style.backgroundColor = bgColor;
                 }
                 temp.classList.remove("temp-card");
                 temp.classList.add("right-card");
