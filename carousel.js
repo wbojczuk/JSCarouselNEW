@@ -10,7 +10,7 @@ const triCarousel = {
     bgColor: "black",
 
     //hover effects: none, slide-up, slide-down, peek
-    hoverEffect: "slide-down",
+    hoverEffect: "slide-up",
 
     // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
     cardStartIndex: null,
@@ -306,6 +306,7 @@ const triCarousel = {
                     temp.querySelector(".tri-carousel-card-bg").style.backgroundImage = "none";
                     temp.querySelector(".tri-carousel-card-bg").style.backgroundColor = bgColor;
                 }
+
                 temp.classList.remove("temp-card");
                 temp.classList.add("left-card");
                 left.classList.remove("left-card");
@@ -314,17 +315,21 @@ const triCarousel = {
                 main.classList.add("right-card");
                 right.classList.remove("right-card");
                 right.classList.add("temp-card");
+
                 right = cardContainer.querySelector(".right-card");
                 left = cardContainer.querySelector(".left-card");
                 main = cardContainer.querySelector(".main-card");
                 temp = cardContainer.querySelector(".temp-card");
+
                 right.href = cards[rIndex].link;
                 left.href = cards[lIndex].link;
                 main.href = cards[mIndex].link;
+
                 main.style.zIndex = "8";
                 right.style.zIndex = "6";
                 left.style.zIndex = "3";
                 temp.style.zIndex = "-10";
+
                 cardStyles(temp);
                 cardStyles(left);
                 cardStyles(main);
