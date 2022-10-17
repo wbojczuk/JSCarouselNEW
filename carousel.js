@@ -105,7 +105,7 @@ const triCarousel = {
                     min-width: 20%;
                     height: 90%;
                     top: 4%;
-                    right: 0;
+                    right: 1%;
                     border: 0px solid transparent;
                     border-radius: 10px;
                     z-index: -15;
