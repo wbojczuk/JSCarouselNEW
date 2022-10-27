@@ -1,28 +1,41 @@
 "use strict";
-
-
 const triCarousel = {
+    /*
+                ---------- SETTINGS ----------
+    */
 
+    // Toggle Card Shadows: true/false
     shadows: true,
-    shuffle: true,
-
-    // If no images are being used
-    bgColor: "black",
-
-    //hover effects: none, slide-up, slide-down, peek
-    hoverEffect: "slide-down",
-
-    // LEAVE NULL FOR RANDOM INDEX -- must have shuffle off for this option to be effective
-    cardStartIndex: null,
-
-    // CONTAINER SIZE, takes any valid units
-    containerSize: "40vw",
-
-    carouselSpeed: "0.9s",
-
-    // CARD SIZE IN PERCENTAGES
+    // CARD SIZE IN PERCENTAGES: Integer
     cardWidth: 45,
     cardHeight: 70,
+    // CONTAINER SIZE, takes any valid CSS size units
+    containerSize: "40vw",
+    // Card Background Color If no images are being used: Hex/rgb(a)/string/etc
+    bgColor: "black",
+    // Card Hover Effects: none, slide-up, slide-down, peek
+    hoverEffect: "slide-down",
+    // Speed For Cards To Animate When Moving: 1s/1000ms
+    carouselSpeed: "0.9s",
+
+
+    // Shuffle Card Order: true/false
+    shuffle: true,
+    
+    // Specifies the Index for the starting card: 0 - cards.length
+    // --> LEAVE NULL FOR RANDOM INDEX
+    // --> must have shuffle set to false for this option to be effective
+    cardStartIndex: null,
+
+
+     // Automatically Move The Carousel Without User Input: true/false
+     autoSwap: true,
+     // Time In MS Between Each Card Moving Automatically: Integer
+     swapSpeed: 3000,
+     // Direction for autoSwap To Move Cards: left/right
+     swapDir: "right",
+     // Time In MS For autoSwap To Idle After User Interactiong Before Resuming autoSwap: Integer
+     swapIdle: 5000,
 
 
 /* 
@@ -77,6 +90,9 @@ const triCarousel = {
         
     ],
 
+    /* 
+                ---------- END OF MANAGEABLE CODE! ----------
+    */
 
     init: ()=>{
 
@@ -490,9 +506,75 @@ const triCarousel = {
         cardContainer.append(rightCard);
         cardContainer.append(tempCard);
 
+        let autoSwapInterval;
+        if(triCarousel.autoSwap){
+            autoSwapInterval = setTimeout(autoSwap,triCarousel.swapIdle);
+
+            // SET AUTOSWAP LISTENERS FOR HOVERING ELEMS
+            const allCards = document.querySelectorAll(".tri-carousel-card");
+            allCards.forEach((card)=>{
+            card.addEventListener("mouseover", ()=>{
+                    clearTimeout(autoSwapInterval);
+            });
+            card.addEventListener("mouseleave", ()=>{
+                autoSwapInterval = setTimeout(autoSwap,triCarousel.swapIdle);
+        });
+        });
+
+
+
+        }
+        
+        
+
+        
 
         // RIGHT ARROW LISTENER
         document.querySelector(".tri-carousel-rarrow").addEventListener("click", ()=>{
+            moveRight();
+            
+            if(triCarousel.autoSwap){
+                clearTimeout(autoSwapInterval);
+                autoSwapInterval = setTimeout(autoSwap, triCarousel.swapIdle);
+            }
+        });
+
+        // LEFT ARROW LISTENER
+        document.querySelector(".tri-carousel-larrow").addEventListener("click", ()=>{
+            moveLeft();
+            
+            if(triCarousel.autoSwap){
+                clearTimeout(autoSwapInterval);
+                autoSwapInterval = setTimeout(autoSwap, triCarousel.swapIdle);
+            }
+        });
+
+        function autoSwap(){
+            
+                switch((triCarousel.swapDir).toLowerCase()){
+                    case "left":
+                        moveLeft();
+                        autoSwapInterval = setTimeout(autoSwap,triCarousel.swapSpeed);    
+                    break;
+                    case "right":
+                        moveRight();
+                        autoSwapInterval = setTimeout(autoSwap,triCarousel.swapSpeed);
+                    break;
+                    default:
+                        console.log(`autoSwap Error: "${triCarousel.swapDir}" Is Not A Valid Direction.`);
+                }
+            
+        }
+
+        
+            
+        
+
+        
+         
+        //FUNCTIONS
+
+        function moveRight(){
             if(ready){
                 let right = cardContainer.querySelector(".right-card");
                 let left = cardContainer.querySelector(".left-card");
@@ -543,10 +625,9 @@ const triCarousel = {
                 ready = false;
                 setTimeout(()=>{ready = true;},400);
             }
-        });
+        }
 
-        // LEFT ARROW LISTENER
-        document.querySelector(".tri-carousel-larrow").addEventListener("click", ()=>{
+        function moveLeft(){
             if(ready){
                 let right = cardContainer.querySelector(".right-card");
                 let left = cardContainer.querySelector(".left-card");
@@ -597,9 +678,7 @@ const triCarousel = {
                 ready = false;
                 setTimeout(()=>{ready = true;},400);
             }
-        });
-         
-        //FUNCTIONS
+        }
 
 
         
