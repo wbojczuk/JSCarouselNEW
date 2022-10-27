@@ -511,12 +511,12 @@ const triCarousel = {
             autoSwapInterval = setTimeout(autoSwap,triCarousel.swapIdle);
 
             // SET AUTOSWAP LISTENERS FOR HOVERING ELEMS
-            const allCards = document.querySelectorAll(".tri-carousel-card");
-            allCards.forEach((card)=>{
-            card.addEventListener("mouseover", ()=>{
+            const stopElems = document.querySelectorAll(".tri-carousel-card, .carousel-arrow");
+            stopElems.forEach((elem)=>{
+            elem.addEventListener("mouseover", ()=>{
                     clearTimeout(autoSwapInterval);
             });
-            card.addEventListener("mouseleave", ()=>{
+            elem.addEventListener("mouseleave", ()=>{
                 autoSwapInterval = setTimeout(autoSwap,triCarousel.swapIdle);
         });
         });
