@@ -517,6 +517,7 @@ const triCarousel = {
                     clearTimeout(autoSwapInterval);
             });
             elem.addEventListener("mouseleave", ()=>{
+                clearTimeout(autoSwapInterval);
                 autoSwapInterval = setTimeout(autoSwap,triCarousel.swapIdle);
         });
         });
