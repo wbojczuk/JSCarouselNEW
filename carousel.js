@@ -583,59 +583,6 @@ const triCarousel = {
                 let temp = cardContainer.querySelector(".temp-card");
 
                 // SHIFT INDEXES
-                rIndex = mIndex;
-                mIndex = lIndex;
-                lIndex = (lIndex > 0)? (lIndex - 1) : cardsIndex;
-                
-
-                // WHAT WILL TEMP BE??
-                temp.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
-                const tempBG = temp.querySelector(".tri-carousel-card-bg");
-                if(cards[lIndex].image != ""){
-                    tempBG.style.backgroundImage = `url('${cards[lIndex].image}')`;
-                    tempBG.style.backgroundSize = "cover";
-                    tempBG.style.backgroundPosition = "center";
-                } else {
-                    tempBG.style.backgroundImage = "none";
-                    tempBG.style.backgroundColor = bgColor;
-                }
-
-                temp.classList.remove("temp-card");
-                temp.classList.add("left-card");
-                left.classList.remove("left-card");
-                left.classList.add("main-card");
-                main.classList.remove("main-card");
-                main.classList.add("right-card");
-                right.classList.remove("right-card");
-                right.classList.add("temp-card");
-
-                right = cardContainer.querySelector(".right-card");
-                left = cardContainer.querySelector(".left-card");
-                main = cardContainer.querySelector(".main-card");
-                temp = cardContainer.querySelector(".temp-card");
-
-                right.href = cards[rIndex].link;
-                left.href = cards[lIndex].link;
-                main.href = cards[mIndex].link;
-
-                main.style.zIndex = "8";
-                right.style.zIndex = "6";
-                left.style.zIndex = "3";
-                temp.style.zIndex = "-10";
-
-                ready = false;
-                setTimeout(()=>{ready = true;},400);
-            }
-        }
-
-        function moveLeft(){
-            if(ready){
-                let right = cardContainer.querySelector(".right-card");
-                let left = cardContainer.querySelector(".left-card");
-                let main = cardContainer.querySelector(".main-card");
-                let temp = cardContainer.querySelector(".temp-card");
-
-                // SHIFT INDEXES
                 lIndex = mIndex;
                 mIndex = rIndex;
                 rIndex =  (rIndex < cardsIndex)? (rIndex + 1) : 0;
@@ -675,6 +622,59 @@ const triCarousel = {
                 left.style.zIndex = "6";
                 temp.style.zIndex = "-10";
                 
+
+                ready = false;
+                setTimeout(()=>{ready = true;},400);
+            }
+        }
+
+        function moveLeft(){
+            if(ready){
+                let right = cardContainer.querySelector(".right-card");
+                let left = cardContainer.querySelector(".left-card");
+                let main = cardContainer.querySelector(".main-card");
+                let temp = cardContainer.querySelector(".temp-card");
+
+                // SHIFT INDEXES
+                rIndex = mIndex;
+                mIndex = lIndex;
+                lIndex = (lIndex > 0)? (lIndex - 1) : cardsIndex;
+                
+
+                // WHAT WILL TEMP BE??
+                temp.querySelector(".tri-carousel-card-title").textContent = cards[lIndex].title;
+                const tempBG = temp.querySelector(".tri-carousel-card-bg");
+                if(cards[lIndex].image != ""){
+                    tempBG.style.backgroundImage = `url('${cards[lIndex].image}')`;
+                    tempBG.style.backgroundSize = "cover";
+                    tempBG.style.backgroundPosition = "center";
+                } else {
+                    tempBG.style.backgroundImage = "none";
+                    tempBG.style.backgroundColor = bgColor;
+                }
+
+                temp.classList.remove("temp-card");
+                temp.classList.add("left-card");
+                left.classList.remove("left-card");
+                left.classList.add("main-card");
+                main.classList.remove("main-card");
+                main.classList.add("right-card");
+                right.classList.remove("right-card");
+                right.classList.add("temp-card");
+
+                right = cardContainer.querySelector(".right-card");
+                left = cardContainer.querySelector(".left-card");
+                main = cardContainer.querySelector(".main-card");
+                temp = cardContainer.querySelector(".temp-card");
+
+                right.href = cards[rIndex].link;
+                left.href = cards[lIndex].link;
+                main.href = cards[mIndex].link;
+
+                main.style.zIndex = "8";
+                right.style.zIndex = "6";
+                left.style.zIndex = "3";
+                temp.style.zIndex = "-10";
 
                 ready = false;
                 setTimeout(()=>{ready = true;},400);
